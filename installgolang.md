@@ -13,5 +13,6 @@ Step 1 :
 Step 2 :
 
 Varliable name : `GOPATH`
+
 Varliable value : `%USERPROFILE%\go`
 ![Edit GOPATH](https://github.com/kangana1024/go-todo-workshop/blob/main/assets/s2.png?raw=true "Edit GOPATH")
