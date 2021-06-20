@@ -1,11 +1,17 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"gotodo/database"
+
+	"github.com/gofiber/fiber/v2"
+)
 
 func main() {
 	app := fiber.New()
 
 	app.Get("/", Home)
+
+	database.Connect()
 
 	app.Listen(":4000")
 }
