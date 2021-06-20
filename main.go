@@ -11,7 +11,10 @@ func main() {
 
 	app.Get("/", Home)
 
-	database.Connect()
+	err := database.Connect()
+	if err != nil {
+		panic("Connection Database Error!")
+	}
 
 	app.Listen(":4000")
 }

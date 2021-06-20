@@ -1,7 +1,7 @@
 package database
 
 import (
-	"fmt"
+	"gotodo/models"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -13,7 +13,10 @@ func Connect() error {
 		return err
 	}
 
-	fmt.Printf("Connecion : %+v", connection)
+	err = connection.AutoMigrate(&models.Todo{})
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

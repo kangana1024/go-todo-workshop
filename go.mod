@@ -6,7 +6,6 @@ require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/gofiber/fiber/v2 v2.13.0
 	github.com/jackc/pgproto3/v2 v2.1.0 // indirect
-	github.com/jinzhu/gorm v1.9.16
 	github.com/klauspost/compress v1.13.1 // indirect
 	github.com/lib/pq v1.6.0 // indirect
 	golang.org/x/crypto v0.0.0-20210616213533-5ff15b29337e // indirect
