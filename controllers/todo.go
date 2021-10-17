@@ -13,6 +13,28 @@ type CreateRequest struct {
 	Todo   string `json:"todo"`
 	Detail string `json:"detail"`
 }
+type ChangeStatusRequest struct {
+	ID     int64  `json:"id"`
+	Status string `json:"status"`
+}
+
+type ChangeStatusResponse struct {
+	ID int64 `json:"id"`
+}
+
+func Changestatus(c *fiber.Ctx) error {
+	var req ChangeStatusRequest
+	if err := c.BodyParser(&req); err != nil {
+		return err
+	}
+	result := database.DB.Model(models.Todo{}).Where("id=?", req.ID).Update("status", req.Status)
+	if result.Error != nil {
+		return result.Error
+	}
+	return c.JSON(fiber.Map{
+		"id": fmt.Sprintf("%d", req.ID),
+	})
+}
 
 func Create(c *fiber.Ctx) error {
 	var req CreateRequest
@@ -38,21 +60,21 @@ func Create(c *fiber.Ctx) error {
 }
 
 type ListsResponse struct {
-	Lists []TodoListView
+	Lists []TodoListView `json:"lists"`
 }
 
 type TodoListView struct {
-	ID     int64
-	Todo   string
-	Detail string
-	Status string
+	ID     int64  `json:"id"`
+	Todo   string `json:"todo"`
+	Detail string `json:"detail"`
+	Status string `json:"status"`
 }
 
 func Lists(c *fiber.Ctx) error {
 	var todos []models.Todo
 	var res ListsResponse
 
-	result := database.DB.Find(&todos)
+	result := database.DB.Where("status!=?", "d").Find(&todos)
 	if result.Error != nil {
 		return result.Error
 	}

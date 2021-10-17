@@ -10,6 +10,7 @@ func Init(app *fiber.App) {
 	app.Get("/", Home)
 	app.Post("/create", controllers.Create)
 	app.Get("/lists", controllers.Lists)
+	app.Patch("/changestatus", controllers.Changestatus)
 }
 
 func Home(c *fiber.Ctx) error {
