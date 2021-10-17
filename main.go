@@ -18,7 +18,9 @@ func main() {
 			log.Fatalf("Error : %+v!", err)
 		}
 	}
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		Prefork: true,
+	})
 
 	err := database.Connect()
 	if err != nil {
