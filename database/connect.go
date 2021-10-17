@@ -2,6 +2,7 @@ package database
 
 import (
 	"gotodo/models"
+	"os"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -10,7 +11,7 @@ import (
 var DB *gorm.DB
 
 func Connect() error {
-	connection, err := gorm.Open(postgres.Open("postgresql://postgres:123456@127.0.0.1/gotodo?sslmode=disable"), &gorm.Config{})
+	connection, err := gorm.Open(postgres.Open(os.Getenv("DATABASE_URL")), &gorm.Config{})
 	if err != nil {
 		return err
 	}

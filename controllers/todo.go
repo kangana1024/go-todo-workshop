@@ -25,11 +25,20 @@ type ChangeStatusResponse struct {
 func Changestatus(c *fiber.Ctx) error {
 	var req ChangeStatusRequest
 	if err := c.BodyParser(&req); err != nil {
-		return err
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", err.Error()),
+		})
 	}
 	result := database.DB.Model(models.Todo{}).Where("id=?", req.ID).Update("status", req.Status)
 	if result.Error != nil {
-		return result.Error
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", result.Error.Error()),
+		})
+	}
+	if result.RowsAffected == 0 {
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", "ID Not Found."),
+		})
 	}
 	return c.JSON(fiber.Map{
 		"id": fmt.Sprintf("%d", req.ID),
@@ -39,7 +48,9 @@ func Changestatus(c *fiber.Ctx) error {
 func Create(c *fiber.Ctx) error {
 	var req CreateRequest
 	if err := c.BodyParser(&req); err != nil {
-		return err
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", err.Error()),
+		})
 	}
 
 	var todo models.Todo
@@ -51,7 +62,9 @@ func Create(c *fiber.Ctx) error {
 
 	result := database.DB.Create(&todo)
 	if result.Error != nil {
-		return result.Error
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", result.Error.Error()),
+		})
 	}
 
 	return c.JSON(fiber.Map{
@@ -76,7 +89,9 @@ func Lists(c *fiber.Ctx) error {
 
 	result := database.DB.Where("status!=?", "d").Find(&todos)
 	if result.Error != nil {
-		return result.Error
+		return c.Status(500).JSON(fiber.Map{
+			"error": fmt.Sprintf("%s", result.Error.Error()),
+		})
 	}
 
 	for _, v := range todos {
