@@ -31,5 +31,5 @@ func main() {
 
 	routes.Init(app)
 
-	app.Listen(":4281")
+	app.Listen("0.0.0.0:4281")
 }
